@@ -31,13 +31,14 @@ function useUpload() {
     if (!file || !user) return;
 
     const fileIdToUploadTo = uuidv4();
+    const filePath = `users/${user.id}/${fileIdToUploadTo}/${file.name}`;
     try {
       setStatus(StatusText.UPLOADING);
 
       // Upload file to Supabase bucket
       const { error } = await supabase.storage
         .from("pdfs") // Replace with your Supabase bucket name
-        .upload(`users/${user.id}/${fileIdToUploadTo}/${file.name}`, file);
+        .upload(filePath, file);
 
       if (error) {
         console.log("Error uploading file to Supabase:", error.message);
@@ -50,7 +51,7 @@ function useUpload() {
       // Get the public URL of the uploaded file
       const { data: urlData } = supabase.storage
         .from("pdfs")
-        .getPublicUrl(`users/${user.id}/${fileIdToUploadTo}/${file.name}`);
+        .getPublicUrl(filePath);
 
       if (!urlData) {
         console.error("Failed to get public URL");
@@ -66,7 +67,7 @@ function useUpload() {
         size: file.size,
         type: file.type,
         url: fileUrl,
-        path: filePath,
+        // path: filePath,
         createdAt: new Date(),
       });
 

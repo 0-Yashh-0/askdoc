@@ -1,8 +1,8 @@
 "use client";
-import { useCallback, useEffect } from "react";
+import { JSX, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { CircleArrowDown, RocketIcon } from "lucide-react";
-import useUpload from "@/hooks/useUpload";
+import { CheckCircleIcon, CircleArrowDown, HammerIcon, RocketIcon, SaveIcon } from "lucide-react";
+import useUpload, { StatusText } from "@/hooks/useUpload";
 import { useRouter } from "next/navigation";
 
 
@@ -23,6 +23,23 @@ function FileUploader() {
     }
   }, [handleUpload]);
 
+  const statusIcons: {
+    [key in StatusText]: JSX.Element;
+  } = {
+    [StatusText.UPLOADING]:(
+      <RocketIcon className="h-20 w-20 text-indigo-600" />
+    ),
+    [StatusText.UPLOADED]: (
+      <CheckCircleIcon className="h-20 w-20 text-indigo-600" />
+    ),
+    [StatusText.SAVING]: (
+      <SaveIcon className="h-20 w-20 text-indigo-600" />
+    ),
+    [StatusText.GENERATING]: (
+      <HammerIcon className="h-20 w-20 text-indigo-600 animate-bounce" />
+    )
+  }
+
   const { getRootProps, getInputProps, isDragActive, isFocused } = useDropzone({
     onDrop,
     maxFiles: 1,
@@ -31,7 +48,8 @@ function FileUploader() {
     },
   });
 
-  const uploadInProgress = progress !== null && progress >= 0 && progress <= 100;
+  const uploadInProgress = progress != null && progress >= 0 && progress <= 100;
+  const statusText = status as StatusText;
 
   return (
     <div className="flex flex-col gap-4 items-center max-w-7xl mx-auto">
@@ -42,18 +60,22 @@ function FileUploader() {
               progress === 100 && "hidden"
             }`}
             role="progressbar"
-            // style={{
-            //   "--value": progress,
-            //   "--size": "12rem",
-            //   "--thickness": "1.3rem",
-            // }}
+            style={{
+              "--value": progress,
+              "--size": "12rem",
+              "--thickness": "1.3rem",
+            } as React.CSSProperties}
           >
             {progress} %
           </div>
-          <p>{status}</p>
+              {
+                statusIcons[statusText]
+              }
+          <p className="text-indigo-600 animate-pulse">{status as StatusText}</p>
         </div>
       )}
-      <div
+      {!uploadInProgress && 
+      (<div
         {...getRootProps()}
         className={`p-10 border-2 border-dashed mt-10 w-[90%] border-indigo-600 text-indigo-600 rounded-lg h-96 flex items-center justify-center ${
           isFocused || isDragActive ? "bg-indigo-300" : "bg-indigo-100"
@@ -75,7 +97,7 @@ function FileUploader() {
             </>
           )}
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }
