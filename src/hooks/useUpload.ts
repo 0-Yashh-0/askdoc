@@ -6,6 +6,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase"; // Update the path to your Firebase Firestore instance
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { generateEmbeddings } from "@/actions/generateEmbeddings";
 
 export enum StatusText {
   UPLOADING = "Uploading file...",
@@ -66,12 +67,14 @@ function useUpload() {
         name: file.name,
         size: file.size,
         type: file.type,
-        url: fileUrl,
+        downloadUrl: fileUrl,
         // path: filePath,
         createdAt: new Date(),
       });
 
       setStatus(StatusText.GENERATING);
+
+      await generateEmbeddings(fileIdToUploadTo);
 
       setFileId(fileIdToUploadTo);
     } catch (err) {
