@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 
 function FileUploader() {
-  const { progress, status, fileId, handleUpload } = useUpload();
+  const { progress, status, fileId, handleUpload, embeddingProgress } = useUpload();
   const router = useRouter();
 
   useEffect(() => {
@@ -68,10 +68,25 @@ function FileUploader() {
           >
             {progress} %
           </div>
-              {
-                statusIcons[statusText]
-              }
-          <p className="text-indigo-600 animate-pulse">{status as StatusText}</p>
+          {status === StatusText.GENERATING ? (
+            <div className="flex flex-col items-center gap-4">
+              {/* Show the hammer icon */}
+              {statusIcons[StatusText.GENERATING]}
+              {/* Show the progress bar for embeddings */}
+              <div className="w-full max-w-md ">
+                <div className="h-4 bg-gray-200 rounded-full">
+                  <div
+                    className="h-4 bg-indigo-600 rounded-full transition-all duration-500"
+                    style={{ width: `${embeddingProgress}%` }}
+                  />
+                </div>
+                <p className="mt-2 text-indigo-600">{status}</p>
+              </div>
+            </div>
+          ) : (
+            statusIcons[statusText]
+          )}
+          {status !== StatusText.GENERATING && <p className="text-indigo-600 animate-pulse">{status}</p>}
         </div>
       )}
       {!uploadInProgress && 

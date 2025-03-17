@@ -15,7 +15,7 @@ function Header() {
                 <Link href={"/dashboard/upgrade"}>Pricing</Link>
             </Button>
             <Button asChild variant="outline" >
-                <Link href="/document">My Documents</Link>
+                <Link href="/dashboard">My Documents</Link>
             </Button>
             <Button asChild variant="outline" className="border-indigo-600">
                 <Link href="/dashboard/upload">
