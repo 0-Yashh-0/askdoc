@@ -101,7 +101,10 @@ export async function generateDocs(docId: string) {
     
     // Split the loaded document into smaller parts for easier processing
     console.log("--- Splitting the document into smaller parts ---");
-    const splitter = new RecursiveCharacterTextSplitter();    
+    const splitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 2000,
+      chunkOverlap: 500,
+    });    
     const splitdocs = await splitter.splitDocuments(docs);
 
     console.log(`--- Split into ${splitdocs.length} parts ---`);
@@ -186,7 +189,7 @@ export async function generateEmbeddingsInPineconeVectorStore(docId: string) {
   } else {
     console.log("--- Generating embeddings... ---");
     const splitDocs = await generateDocs(docId);
-    const chunks = splitDocs.slice(0, 10); // batch size
+    const chunks = splitDocs; 
     for (const batch of chunks) {
       const text = batch.pageContent; // batch is a Document object
       const embedding = await generateEmbeddings(text);
@@ -239,7 +242,7 @@ const generateLangchainCompletion = async (docId: string, question:string) => {
   console.log("--- Creating a retriever ---");
   const retriever = pineconeVectorStore.asRetriever({
     searchType: "similarity",
-    k: 5, // Retrieve more documents for better context
+    k : 30,
   });
 
   // Rephrase query based on chat history
@@ -250,22 +253,17 @@ const generateLangchainCompletion = async (docId: string, question:string) => {
   console.log("--- Retrieving documents with rephrased query ---");
   let relevantDocuments = await retriever.invoke(rephrasedQuery);
   
-  console.log(`--- Retrieved ${relevantDocuments.length} relevant documents ---`);
+  // console.log(`--- Retrieved ${relevantDocuments.length} relevant documents ---`);
 
-  // If no relevant documents found, fetch the entire document
+  // // If no relevant documents found, fetch the entire document
   if (relevantDocuments.length === 0) {
     console.log("--- No relevant documents found, using entire document ---");
     // Get the full document content
-    const splitDocs = await generateDocs(docId);
-    relevantDocuments = splitDocs;
+    relevantDocuments = await generateDocs(docId);
   }
   
-  // Extract text from documents for logging
-  // const documentTexts = relevantDocuments.map(doc => doc.pageContent).join("\n\n");
-  // console.log("Document texts:", documentTexts.substring(0, 20) + "...");
-  
   // Generate completion based on the query and retrieved documents
-  const completion = await generateGeminiCompletion(question, relevantDocuments, chatHistory);
+  const completion = await generateGeminiCompletion(rephrasedQuery, relevantDocuments, chatHistory);
   
   return completion;
 }
@@ -309,7 +307,6 @@ async function rephraseQueryWithHistory(question: string, chatHistory: (HumanMes
 async function generateGeminiCompletion(question: string, documents: any[], chatHistory: (HumanMessage | AIMessage)[]) {
   // Extract text from documents
   const documentTexts = documents.map((doc) => doc.pageContent).join("\n\n");
-  // console.log("Document texts:", documentTexts);
   
   // Convert chat history to a string format for context
   const historyString = chatHistory

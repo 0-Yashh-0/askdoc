@@ -18,32 +18,6 @@ export enum StatusText {
 
 export type Status = StatusText[keyof StatusText];
 
-// export function createClerkSupabaseClient(token:string|null|undefined) {
-//   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-//   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-//   return createClient(
-//     supabaseUrl,
-//     supabaseKey,
-//     {
-//       global: {
-//         // Get the custom Supabase token from Clerk
-//         fetch: async (url, options = {}) => {
-          
-//           // Insert the Clerk Supabase token into the headers
-//           const headers = new Headers(options?.headers);
-//           headers.set('Authorization', `Bearer ${token}`);
-          
-//           // Call the default fetch
-//           return fetch(url, {
-//             ...options,
-//             headers,
-//           })
-//         },
-//       },
-//     },
-//   )
-// }
-
 function useUpload() {
   const { session } = useSession();
   const [progress, setProgress] = useState<number | null>(null);
@@ -60,7 +34,6 @@ function useUpload() {
 
     const clerkToken = await session?.getToken({
       // Pass the name of the JWT template you created in the Clerk Dashboard
-      // For this tutorial, you named it 'supabase'
       template: 'supabase',
     });
   
