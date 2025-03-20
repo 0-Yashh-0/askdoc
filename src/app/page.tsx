@@ -3,41 +3,41 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-
-import { GlobeIcon } from "lucide-react";
+import { AppWindowIcon, AtomIcon, BookOpenTextIcon, BrainCircuitIcon, ChartNetworkIcon, GlobeIcon } from "lucide-react";
 
 const features = [
   {
-    name: 'Store your PDF Documents',
-    description: 'Keep all your important PDF files securely and easily accessible anytime, anywhere',
+    name: 'Secure Cloud Storage',
+    description: 'Store your PDFs securely in Supabase cloud storage with authenticated access, ensuring your documents are protected and available anytime.',
     icon: GlobeIcon
   },
   {
-    name: 'Store your PDF Documents',
-    description: 'Keep all your important PDF files securely and easily accessible anytime, anywhere',
-    icon: GlobeIcon
+    name: 'Intuitive Document Management',
+    description: 'Upload, view, and organize your PDF documents with a clean, responsive interface built with Next.js and Tailwind CSS.',
+    icon: AppWindowIcon
   },
   {
-    name: 'Store your PDF Documents',
-    description: 'Keep all your important PDF files securely and easily accessible anytime, anywhere',
-    icon: GlobeIcon
+    name: 'AI-Powered Document Chat',
+    description: 'Ask questions about your documents and receive intelligent responses using Google Gemini AI, making information retrieval effortless.',
+    icon: AtomIcon
   },
   {
-    name: 'Store your PDF Documents',
-    description: 'Keep all your important PDF files securely and easily accessible anytime, anywhere',
-    icon: GlobeIcon
+    name: 'Smart Document Analysis',
+    description: 'Leverage Google\'s Gemini AI to analyze, understand, and extract insights from your PDF content automatically.',
+    icon: BrainCircuitIcon
   },
   {
-    name: 'Store your PDF Documents',
-    description: 'Keep all your important PDF files securely and easily accessible anytime, anywhere',
-    icon: GlobeIcon
+    name: 'Efficient Metadata Storage',
+    description: 'Store document metadata in Firebase for quick retrieval and seamless integration with your user profile and authentication system.',
+    icon: BookOpenTextIcon
   },
   {
-    name: 'Store your PDF Documents',
-    description: 'Keep all your important PDF files securely and easily accessible anytime, anywhere',
-    icon: GlobeIcon
-  },
+    name: 'Vector-Based Document Search',
+    description: 'Find information across your documents instantly with Pinecone vector database, enabling semantic search powered by text embeddings.',
+    icon: ChartNetworkIcon
+  }
 ];
+
 
 export default function Home() {
   return (
@@ -72,7 +72,7 @@ export default function Home() {
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <Image
                 alt="App Screenshot"
-                src="/appSS.jpg"
+                src="/image.png"
                 width={2432}
                 height={1442}
                 className="mb-[-0%] rounded-xl shadow-2xl ring-1 ring-gray-900/10"
