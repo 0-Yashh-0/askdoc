@@ -1,6 +1,6 @@
 # 📄 Ask Your Doc
 
-This is a powerful **Next.js** web application designed for **storing, managing, and interacting with PDF documents**. The app utilizes **AI-powered embeddings** for chat functionalities. Keeps it very **simple** to make **summarization, notes and insights** out of the document.
+This is a powerful **Next.js** web application designed for **storing, managing, and interacting with PDF documents**. The app utilizes **AI-powered embeddings** for chat functionalities. Keeps it very **simple** to make **summarization, notes and insights** out of the document. **Feel free to test!**
 
 ---
 
