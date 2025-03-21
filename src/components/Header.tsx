@@ -11,9 +11,6 @@ function Header() {
       </Link>
       <SignedIn>
         <div className="flex items-center space-x-2">
-            <Button asChild variant="link" className="hidden md:flex">
-                <Link href={"/dashboard/upgrade"}>Pricing</Link>
-            </Button>
             <Button asChild variant="outline" >
                 <Link href="/dashboard">My Documents</Link>
             </Button>
