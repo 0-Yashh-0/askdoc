@@ -253,13 +253,9 @@ const generateLangchainCompletion = async (docId: string, question:string) => {
   // Retrieve relevant documents using the rephrased query
   console.log("--- Retrieving documents with rephrased query ---");
   let relevantDocuments = await retriever.invoke(rephrasedQuery);
-  
-  // console.log(`--- Retrieved ${relevantDocuments.length} relevant documents ---`);
 
   // // If no relevant documents found, fetch the entire document
   if (relevantDocuments.length === 0) {
-    console.log("--- No relevant documents found, using entire document ---");
-    // Get the full document content
     relevantDocuments = await generateDocs(docId);
   }
   

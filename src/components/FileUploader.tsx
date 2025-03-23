@@ -101,13 +101,16 @@ function FileUploader() {
           {isDragActive ? (
             <>
               <RocketIcon className="h-20 w-20 animate-ping" />
-              <p>Drop the files here ...</p>
+              <p>Drop the file here ...</p>
             </>
           ) : (
             <>
               <CircleArrowDown className="h-20 w-20 animate-bounce" />
               <p>
-                Drag &apos;n&apos; drop some files here, or click to select files
+                Drag &apos;n&apos; drop a file here, or click to select a file
+              </p>
+              <p className="text-xs">
+                (NOT MORE THAN 5MB)
               </p>
             </>
           )}

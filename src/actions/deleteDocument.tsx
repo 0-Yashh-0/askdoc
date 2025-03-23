@@ -13,7 +13,6 @@ async function deleteDocument(docId: string) {
         throw new Error("User not found");
     }
     
-    
     // Delete the document from Supabase
     const docRef = await adminDb
         .collection("users")
@@ -21,7 +20,7 @@ async function deleteDocument(docId: string) {
         .collection("files")
         .doc(docId)
         .get();
-    const filePath = docRef.data()?.filePath;
+    const filePath = docRef.data()?.downloadUrl;
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -39,7 +38,22 @@ async function deleteDocument(docId: string) {
         .collection("files")
         .doc(docId)
         .delete();
-    
+        
+    // Delete all chats associated with the document
+    const snapshot = await adminDb 
+        .collection("users")
+        .doc(userId!)
+        .collection("files")
+        .doc(docId)
+        .collection("chat")
+        .get();
+    if(snapshot.empty){ console.log("No chats to delete"); }
+    const batch = adminDb.batch();
+    snapshot.docs.forEach((doc) =>{
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
+
     // Delete the embedding from Pinecone
     try {
         const index = await pineconeClient.index(indexName);

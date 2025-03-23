@@ -26,7 +26,7 @@ function Document({
       }}>
         <p className="font-semibold line-clamp-2">{name}</p>
         <p className="text-sm text-gray-500 group-hover:text-indigo-100">
-            {byteSize(size).value}KB
+            {byteSize(size).value} {byteSize(size).unit}
         </p>
       </div>
 
@@ -37,7 +37,7 @@ function Document({
               setIsDeleting(true);
               try {
                 await deleteDocument(id);
-                // router.refresh();
+                router.refresh();
               } catch (error) {
                 console.error("Error deleting document:", error);
               } finally {
