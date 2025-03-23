@@ -8,6 +8,7 @@ import { PineconeStore } from "@langchain/pinecone";
 import { adminDb } from "@/firebaseAdmin";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { EmbeddingsInterface } from "@langchain/core/embeddings";
+import { Document } from "@langchain/core/documents";
 
 if (!process.env.GEMINI_API_KEY) {
   throw new Error("GEMINI_API_KEY is not defined");
@@ -304,7 +305,7 @@ async function rephraseQueryWithHistory(question: string, chatHistory: (HumanMes
 }
 
 // Function to generate completion using Gemini
-async function generateGeminiCompletion(question: string, documents: any[], chatHistory: (HumanMessage | AIMessage)[]) {
+async function generateGeminiCompletion(question: string, documents: Document[], chatHistory: (HumanMessage | AIMessage)[]) {
   // Extract text from documents
   const documentTexts = documents.map((doc) => doc.pageContent).join("\n\n");
   

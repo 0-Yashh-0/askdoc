@@ -21,12 +21,6 @@ export async function askQuestion(id : string, question: string) {
         .collection("files")
         .doc(id)
         .collection("chat")
-
-    // checking how many user msgs are there in chat
-    const chatSnapshot = await chatRef.get();
-    const userMessages = chatSnapshot.docs.filter(
-        (doc) => doc.data().role === "human"
-    );
     
     //  limit the PRO/FREE users
 

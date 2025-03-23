@@ -9,7 +9,7 @@ import { Loader2Icon } from "lucide-react";
 // import {useCollection} from "react-firebase-hooks/firestore";
 import { useUser } from "@clerk/nextjs";
 import { db } from "../../firebase";
-import { useCollection, useCollectionData } from "react-firebase-hooks/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore"; 
 import { askQuestion } from "@/actions/askQuestion";
 import ChatMessage from "./ChatMessage";
@@ -30,7 +30,7 @@ function Chat({id}: {id: string}) {
     const [isPending, startTransition] = useTransition();
     const bottomOfChatRef = useRef<HTMLDivElement>(null);
 
-    const [snapshot, loading, error] = useCollection(
+    const [snapshot, loading] = useCollection(
         user && 
         query(
             collection(db, "users", user?.id, "files", id, "chat"),
