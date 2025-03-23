@@ -2,9 +2,8 @@ import * as admin from 'firebase-admin';
 import {getFirestore} from 'firebase-admin/firestore';
 import { ServiceAccount } from 'firebase-admin';
 
-import serviceKey from '../service_key.json';
 import { App, getApp, getApps } from 'firebase-admin/app';
-
+const serviceKey = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string);
 
 let app : App;
     if(getApps().length === 0){
